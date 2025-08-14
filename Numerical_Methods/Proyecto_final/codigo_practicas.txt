@@ -1,0 +1,40 @@
+%Metodos numericos - Practica 1
+		%Metodo de rainstrow
+
+		syms x;
+		%ecuacion
+		f=x^5-3.5*x^4+2.75*x^3+2.125*x^2-3.875*x+1.25;
+		%datos de entrada
+		xi=-1;
+		xs=-1;
+		S=0.05;
+		S1=1;
+		S2=1;
+
+		%coeficientes de f
+		a=sym2poly(f);
+		a=a(length(a):-1:1);
+		n=length(a);
+
+		while(S1>S & S2>S)
+		b(n+2)=0;
+		b(n+1)=0;
+		for i=n:-1:1
+		b(i)=a(i)-xi*b(i+1)-xs*b(i+2);
+		end
+		c(n+2)=0;
+		c(n+1)=0;
+		for i=n:-1:1
+		c(i)=b(i)-xi*c(i+1)-xs*c(i+2);
+		end
+
+		A=[c(2) c(3);c(3) c(4)];
+		B=[b(1);b(2)];
+		delta=inv(A)*B;
+		xi=xi+delta(1);
+		xs=xs+delta(2);
+		S1=abs(delta(1)/xi);
+		S2=abs(delta(2)/xs);
+		end
+		raiz1=(-xi+sqrt(xi^2-4*xs))/2
+		raiz2=(-xi-sqrt(xi^2-4*xs))/2
